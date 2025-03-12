@@ -41,7 +41,7 @@ jobs:
         echo 'org.gradle.parallel=true' >> gradle.properties
         echo 'org.gradle.vfs.watch=true' >> gradle.properties
         echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
-        ./gradlew publish
+        ./gradlew publish dokkaHtmlMultiModule
       env:
         GITHUB_ACTOR: ${{ github.actor }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         # Upload entire repository
-        path: 'api/build/intermediates/java_doc_dir/release/javaDocReleaseGeneration'
+        path: 'build/dokka/htmlMultiModule'
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4

@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
+    id("org.jetbrains.dokka")
 }
 
 android {
@@ -34,7 +35,7 @@ android {
 
 tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
-    from(tasks.named("javadoc"))
+    from(tasks.dokkaHtml)
 }
 
 publishing {

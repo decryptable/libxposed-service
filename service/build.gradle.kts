@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
+    id("org.jetbrains.dokka")
 }
 
 android {
@@ -38,7 +39,7 @@ dependencies {
 
 tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
-    from(tasks.named("javadoc"))
+    from(tasks.dokkaHtml)
 }
 
 publishing {
@@ -70,8 +71,8 @@ publishing {
             }
             afterEvaluate {
                 from(components.getByName("release"))
+                artifact(tasks.named("javadocJar"))
             }
-            artifact(tasks.named("javadocJar"))
         }
     }
     repositories {
