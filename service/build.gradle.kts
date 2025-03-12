@@ -36,6 +36,11 @@ dependencies {
     compileOnly("androidx.annotation:annotation:1.7.1")
 }
 
+tasks.register<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    from(tasks.named("javadoc"))
+}
+
 publishing {
     publications {
         register<MavenPublication>("libxposed-service") {
@@ -66,6 +71,7 @@ publishing {
             afterEvaluate {
                 from(components.getByName("release"))
             }
+            artifact(tasks.named("javadocJar"))
         }
     }
     repositories {

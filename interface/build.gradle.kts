@@ -32,6 +32,11 @@ android {
     }
 }
 
+tasks.register<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    from(tasks.named("javadoc"))
+}
+
 publishing {
     publications {
         register<MavenPublication>("libxposed-interface") {
@@ -61,6 +66,7 @@ publishing {
             }
             afterEvaluate {
                 from(components.getByName("release"))
+                artifact(tasks.named("javadocJar"))
             }
         }
     }
