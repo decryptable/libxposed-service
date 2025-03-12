@@ -1,0 +1,64 @@
+name: Publish CI
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  packages: write
+
+jobs:
+  build:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: gradle
+    - name: Set up Maven settings
+      run: cp .github/workflows/settings.xml ~/.m2/settings.xml && cat ~/.m2/settings.xml
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Build with Gradle
+      run: |
+        echo 'org.gradle.caching=true' >> gradle.properties
+        echo 'org.gradle.parallel=true' >> gradle.properties
+        echo 'org.gradle.vfs.watch=true' >> gradle.properties
+        echo 'org.gradle.jvmargs=-Xmx2048m' >> gradle.properties
+        ./gradlew publish
+      env:
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Debug check artifacts
+      run: ls -R ~/.m2/repository/ || echo "No artifacts found"
+    - name: Upload library
+      uses: actions/upload-artifact@v4
+      with:
+        name: library
+        path: ~/.m2/repository/
+        include-hidden-files: true
+        if-no-files-found: error
+    - name: Upload pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # Upload entire repository
+        path: 'api/build/intermediates/java_doc_dir/release/javaDocReleaseGeneration'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
