@@ -72,7 +72,7 @@ publishing {
         mavenLocal()
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/decryptable/libxposed-helper")
+            url = uri("https://maven.pkg.github.com/decryptable/libxposed-service")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
