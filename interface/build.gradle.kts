@@ -2,7 +2,6 @@ plugins {
     id("com.android.library")
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka")
 }
 
 android {
@@ -27,6 +26,7 @@ android {
 
     publishing {
         singleVariant("release") {
+            withSourcesJar()
             withSourcesJar()
         }
     }
