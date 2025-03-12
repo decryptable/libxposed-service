@@ -6,6 +6,10 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
 }
 
+dokkaHtml {
+    outputDirectory.set(file("build/documentation/html"))
+}
+
 
 tasks.register("Delete", Delete::class) {
     delete(rootProject.layout.buildDirectory)
