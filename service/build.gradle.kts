@@ -67,7 +67,6 @@ publishing {
             }
             afterEvaluate {
                 from(components.getByName("release"))
-                artifact(tasks.named("javadocJar"))
             }
         }
     }
