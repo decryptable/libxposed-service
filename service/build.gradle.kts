@@ -27,6 +27,7 @@ android {
     publishing {
         singleVariant("release") {
             withSourcesJar()
+            withJavadocJar()
         }
     }
 }
@@ -36,17 +37,13 @@ dependencies {
     compileOnly("androidx.annotation:annotation:1.7.1")
 }
 
-tasks.register<Jar>("javadocJar") {
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaHtml)
-}
 
 publishing {
     publications {
         register<MavenPublication>("libxposed-service") {
             artifactId = "libxposed-service"
             group = "io.github.decryptable"
-            version = "1.0.1"
+            version = "1.0.2"
             pom {
                 name.set("libxposed-service")
                 description.set("Modern Xposed Service Interface")

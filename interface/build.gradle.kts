@@ -32,17 +32,12 @@ android {
     }
 }
 
-tasks.register<Jar>("javadocJar") {
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaHtml)
-}
-
 publishing {
     publications {
         register<MavenPublication>("libxposed-interface") {
             artifactId = "libxposed-interface"
             group = "io.github.decryptable"
-            version = "1.0.1"
+            version = "1.0.2"
             pom {
                 name.set("libxposed-interface")
                 description.set("Modern Xposed Service Interface")
