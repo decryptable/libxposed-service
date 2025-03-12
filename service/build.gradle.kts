@@ -46,7 +46,7 @@ publishing {
         register<MavenPublication>("libxposed-service") {
             artifactId = "libxposed-service"
             group = "io.github.decryptable"
-            version = "1.0.0"
+            version = "1.0.1"
             pom {
                 name.set("libxposed-service")
                 description.set("Modern Xposed Service Interface")
